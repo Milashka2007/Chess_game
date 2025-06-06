@@ -21,4 +21,7 @@ env/
 
 # OS specific files
 .DS_Store
-Thumbs.db 
+Thumbs.db
+
+# Project specific files
+matrica.py 
