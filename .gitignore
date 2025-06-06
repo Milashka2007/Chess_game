@@ -23,5 +23,3 @@ env/
 .DS_Store
 Thumbs.db
 
-# Project specific files
-matrica.py 
