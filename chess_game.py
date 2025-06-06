@@ -229,7 +229,8 @@ class ChessBoard:
             for piece in piece_types:
                 try:
                     image = pygame.image.load(f'assets/images/{color}_{piece}.png')
-                    image = pygame.transform.scale(image, (SQUARE_SIZE - 10, SQUARE_SIZE - 10))
+                    
+                    image = pygame.transform.scale(image, (SQUARE_SIZE - 30, SQUARE_SIZE - 30))
                     self.piece_images[f"{color}_{piece}"] = image
                 except pygame.error:
                     print(f"Не удалось загрузить изображение: {color}_{piece}.png")
@@ -467,9 +468,6 @@ class ChessBoard:
                  if len(white_pieces) == 1 and isinstance(white_pieces[0], King):
                      return True
 
-        # TODO: Добавить проверку для К+С vs К+С одного цвета
-        # TODO: Добавить проверку для других возможных ничейных окончаний (при необходимости)
-
         return False
 
     def update_timers(self, dt):
@@ -503,6 +501,16 @@ class ChessBoard:
             for col in range(BOARD_SIZE):
                 color = WHITE if (row + col) % 2 == 0 else GRAY
                 pygame.draw.rect(screen, color, (col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
+
+        font = pygame.font.Font(None, 24)
+        # Буквы (a-h)
+        for col in range(BOARD_SIZE):
+            text = font.render(chr(97 + col), True, BLACK)  # 97 - код буквы 'a'
+            screen.blit(text, (col * SQUARE_SIZE + SQUARE_SIZE - 20, WINDOW_SIZE - 20))
+        # Цифры (1-8)
+        for row in range(BOARD_SIZE):
+            text = font.render(str(8 - row), True, BLACK)
+            screen.blit(text, (5, row * SQUARE_SIZE + 5))
 
         # Отрисовка фигур
         for row in range(BOARD_SIZE):
