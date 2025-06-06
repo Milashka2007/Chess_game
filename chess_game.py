@@ -4,7 +4,7 @@ import time
 from menu import main as menu_main
 
 # Константы
-WINDOW_SIZE = 800
+WINDOW_SIZE = 900
 BOARD_SIZE = 8
 SQUARE_SIZE = WINDOW_SIZE // BOARD_SIZE
 
@@ -229,7 +229,7 @@ class ChessBoard:
             for piece in piece_types:
                 try:
                     image = pygame.image.load(f'assets/images/{color}_{piece}.png')
-                    image = pygame.transform.scale(image, (SQUARE_SIZE - 10, SQUARE_SIZE - 10))
+                    image = pygame.transform.scale(image, (SQUARE_SIZE - 30, SQUARE_SIZE - 30))  # Уменьшаем размер с -20 до -30
                     self.piece_images[f"{color}_{piece}"] = image
                 except pygame.error:
                     print(f"Не удалось загрузить изображение: {color}_{piece}.png")
@@ -467,9 +467,6 @@ class ChessBoard:
                  if len(white_pieces) == 1 and isinstance(white_pieces[0], King):
                      return True
 
-        # TODO: Добавить проверку для К+С vs К+С одного цвета
-        # TODO: Добавить проверку для других возможных ничейных окончаний (при необходимости)
-
         return False
 
     def update_timers(self, dt):
@@ -504,6 +501,16 @@ class ChessBoard:
                 color = WHITE if (row + col) % 2 == 0 else GRAY
                 pygame.draw.rect(screen, color, (col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 
+        font = pygame.font.Font(None, 24)
+        # Буквы (a-h)
+        for col in range(BOARD_SIZE):
+            text = font.render(chr(97 + col), True, BLACK)  # 97 - код буквы 'a'
+            screen.blit(text, (col * SQUARE_SIZE + SQUARE_SIZE - 20, WINDOW_SIZE - 20))
+        # Цифры (1-8)
+        for row in range(BOARD_SIZE):
+            text = font.render(str(8 - row), True, BLACK)
+            screen.blit(text, (5, row * SQUARE_SIZE + 5))
+
         # Отрисовка фигур
         for row in range(BOARD_SIZE):
             for col in range(BOARD_SIZE):
@@ -531,6 +538,7 @@ class ChessBoard:
                                          BLACK if piece.color == 'white' else WHITE)
                         text_rect = text.get_rect(center=center)
                         screen.blit(text, text_rect)
+        
 
         # Отрисовка выделения для выбранной фигуры
         if self.selected_piece:
