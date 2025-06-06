@@ -18,7 +18,7 @@
 
 1. Клонируйте репозиторий:
 ```bash
-git clone https://github.com/your-username/chess-game.git
+git clone https://github.com/Milashka2007/Сhess_game.git
 cd chess-game
 ```
 
